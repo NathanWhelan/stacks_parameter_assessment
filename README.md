@@ -30,9 +30,6 @@ python paris_optimize.py M*_R80 -o paris_results
 done
 ```
 
-You may need to install Python modules to take full advantage of this script's functions. See dependencies below.
-
-
 ------------------------------------------------------------------------
 
 ## Contents
