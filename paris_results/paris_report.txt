@@ -1,0 +1,268 @@
+Stacks parameter selection following Paris et al. (2017)
+=========================================================
+Runs read: 8
+
+populations dir params       r80 loci     poly     SNPs  mean cov  min cov
+1_mmar_R80      m3 M1 n1       18,299   12,314   25,767     46.0x     7.0x
+2_mmar_n1       m3 M2 n1       15,947   10,950   22,961     43.8x     7.2x
+2_mmar_R80      m3 M2 n2       16,048   11,100   23,884     43.8x     7.2x
+2_mmar_n3       m3 M2 n3       15,969   11,123   25,141     43.8x     7.2x
+3_mmar_R80      m3 M3 n3       15,251   10,603   23,898     42.3x     7.3x
+4_mmar_R80      m3 M4 n4       14,921   10,408   23,838     41.8x     7.4x
+5_mmar_R80      m3 M5 n5       14,713   10,263   24,002     41.5x     7.4x
+6_mmar_R80      m3 M6 n6       14,576   10,193   24,138     41.4x     7.4x
+poly = polymorphic loci. cov = each sample's ustacks coverage after merging
+alleles (Paris Fig. 1): the mean and the lowest over samples.
+Population-level numbers come only from these populations -R folders. From
+each assembly folder, the other files read are ones written before populations
+runs: the ustacks and cstacks lines of denovo_map.log, the per-sample ustacks
+and sstacks files (SAMPLE.alleles, .snps and .matches.tsv.gz) and the catalog
+(catalog.snps.tsv.gz, catalog.fa.gz). 2_mmar_n1 and 2_mmar_n3 are the assembly
+folder itself: denovo_map.pl ran populations there with -R (its -X option), so
+the populations output in each is that run's -R output. For the other runs,
+the populations output that denovo_map.pl writes into the assembly folder is
+never used.
+
+Paired-end data: forward read 140 bp; median polymorphic locus 282 bp. Only
+the forward read is assembled under M and n, so SNP-dense loci are also
+counted there: ≥5 SNPs in the forward read is the same density as ≥10 in the
+whole locus.
+
+------------------------------------------------------------------------------
+M = n series (m3 fixed)  |  populations -R 0.8: loci in ≥80% of all 44 samples
+------------------------------------------------------------------------------
+Paris et al. (2017) metrics on r80 loci (Figs. 3 and 4).
+value     r80 loci    r80 poly  new poly (step)     SNPs  Paris
+M1n1        18,299      12,314                    25,767  r80 max, Fig. 4
+M2n2        16,048      11,100   -1,214 (-9.9%)   23,884  plateau, PICK
+M3n3        15,251      10,603     -497 (-4.5%)   23,898  
+M4n4        14,921      10,408     -195 (-1.8%)   23,838  
+M5n5        14,713      10,263     -145 (-1.4%)   24,002  
+M6n6        14,576      10,193      -70 (-0.7%)   24,138  
+r80 max = most polymorphic r80 loci; Fig. 4 = later steps add <1.0% new ones;
+plateau = polymorphic loci within individuals first level off; PICK = Paris
+recommendation.
+
+Within individuals (Paris Results and Table S6): means over 44 individuals.
+loci = loci per individual; merged = share of each individual's stacks merged
+into loci (allele collapse); het = heterozygous loci per individual (ustacks),
+which decides M. Steps are paired by individual, ± 2 SE; * = beyond 2 SE.
+value        loci  merged       het         step
+M1n1       40,420   13.3%   2,360.6             
+M2n2       35,407   23.8%   2,426.8    +66 ± 33*
+M3n3       33,534   27.7%   2,434.3      +8 ± 20
+M4n4       32,779   29.2%   2,494.2    +60 ± 18*
+M5n5       32,376   29.9%   2,587.5    +93 ± 12*
+M6n6       32,121   30.2%   2,701.7   +114 ± 20*
+
+Over-merging signs Paris et al. name, as shares of polymorphic r80 loci: SNP-
+dense loci, and loci with a site where at least 70% of all samples are
+heterozygous ('heterozygous in a large majority of individuals').
+value       ≥10 SNPs, locus     ≥5 forward read         ≥70% het
+M1n1             81 (0.66%)          23 (0.19%)      207 (1.68%)
+M2n2             56 (0.50%)          39 (0.35%)      167 (1.50%)
+M3n3             84 (0.79%)          85 (0.80%)      162 (1.53%)
+M4n4             91 (0.87%)         125 (1.20%)      157 (1.51%)
+M5n5            119 (1.16%)         196 (1.91%)      172 (1.68%)
+M6n6            140 (1.37%)         229 (2.25%)      173 (1.70%)
+
+Pick following Paris et al.: m3 M2 n2.
+  r80 rule (most polymorphic r80 loci): M1n1 (12,314)
+  Fig. 4 (later steps add <1.0% new polymorphic r80 loci): M1n1
+  Polymorphic loci within individuals (heterozygous loci per individual) first
+      level off: M2n2
+  How: The r80 maximum (M1n1) lies below where polymorphic loci within
+      individuals first level off (M2n2). None of Paris et al.'s datasets did
+      this; in all three they chose M at or above where polymorphic loci
+      within individuals levelled off (trout M5, earthworm M3, penguin M2), so
+      the pick is M2n2. This applies their judgement to a case they did not
+      meet; it is not a rule they state. Taken alone, their r80 rule gives
+      M1n1.
+
+Notes:
+  - Polymorphic r80 loci fall at every step, from 12,314 at M1n1 to 10,193 at
+    M6n6, so no step adds new polymorphic r80 loci (Paris Fig. 4). None of
+    Paris et al.'s datasets did this: polymorphic r80 loci were highest at M2
+    (penguin) and M5 (trout), and still rising at M11 (earthworm).
+  - Polymorphic loci within individuals: Paris et al. chose M5 for trout,
+    where these 'began to flatten out', and M3 for earthworm, where they
+    'began to plateau'. Here they are heterozygous loci per individual,
+    counted in each sample's ustacks output (before the catalog). They change
+    by +66 ± 33* (37 of 44 up) at M1n1→M2n2, +8 ± 20 (22 of 44 up) at
+    M2n2→M3n3, +60 ± 18* (37 of 44 up) at M3n3→M4n4, +93 ± 12* (44 of 44 up)
+    at M4n4→M5n5 and +114 ± 20* (44 of 44 up) at M5n5→M6n6 (± 2 SE, paired
+    over 44 individuals). They first level off (the next step does not rise
+    beyond two standard errors) after M2n2.
+  - Allele collapse within individuals (Paris Table S6a, 'the proportion of
+    putative alleles that collapsed'): the share of each individual's stacks
+    that ustacks merged into loci is 13.3% at M1n1, 23.8% at M2n2, 27.7% at
+    M3n3, 29.2% at M4n4, 29.9% at M5n5 and 30.2% at M6n6. Of the change across
+    the tested range, 62% has happened by M2n2, 85% by M3n3, 94% by M4n4 and
+    98% by M5n5. Paris et al. saw this level out between M3 and M4 (trout), M1
+    and M2 (penguin) and M2 and M3 (earthworm), and chose M5, M2 and M3.
+  - From M1n1 to M2n2, each individual loses 5,013 loci on average but gains
+    only 66 heterozygous loci, so most of the stacks merged at that step do
+    not form a heterozygous locus. Raising M is removing loci rather than
+    turning monomorphic loci polymorphic, which is how polymorphic r80 loci
+    can fall while polymorphism within individuals still rises.
+  - Above M2n2, heterozygous loci per individual rise again (+60 ± 18* at
+    M3n3→M4n4, +93 ± 12* at M4n4→M5n5 and +114 ± 20* at M5n5→M6n6), so the
+    level-off is the first one, not a lasting plateau. Paris et al.'s wording,
+    'began to flatten out' (trout) and 'began to plateau' (earthworm), refers
+    to where the levelling starts. They found that higher M adds 'a small
+    number of loci that contained many SNPs' at each increment: 'With high
+    coverage, these are likely to be true loci', and with low coverage 'more
+    likely to be erroneously assembled loci'. Mean ustacks coverage (after
+    merging alleles) here is 41.4x–46.0x; Paris et al.'s datasets averaged 21x
+    (earthworm), 28x (trout) and 49x (penguin) after merging alleles at m3.
+  - SNPs in r80 loci (Paris Fig. 3c) go from 25,767 at M1n1 to 24,138 at M6n6
+    (-6.3%). Paris et al. saw a steep rise in SNPs with M in trout and
+    earthworm and 'a much smaller increase' in penguin. In trout it 'reflects
+    the higher value of M required'; in earthworm they put the continued rise
+    in r80 polymorphism down to 'a small number of loci with a high-density of
+    SNPs'; in penguin 'the majority of polymorphism and SNPs were already
+    captured' at M1.
+  - Over-merging signs Paris et al. name, as shares of polymorphic r80 loci
+    from the pick upwards: loci with ≥5 SNPs in the forward read go from 0.35%
+    at M2n2 to 2.25% at M6n6 (more than two standard errors higher); loci with
+    a site where at least 70% of all samples are heterozygous go from 1.50% at
+    M2n2 to 1.70% at M6n6 (within two standard errors). With paired-end data
+    only the forward read is assembled under M and n, so only its SNPs are
+    counted; ≥5 there is the same density as ≥10 in a 282 bp locus. Paris et
+    al. note that SNP-dense loci are likely real at high coverage and likely
+    misassembled at low coverage. Over-merged paralogs 'will appear as
+    heterozygous in a large majority of individuals'; Paris et al. filter them
+    after assembly with populations --max_obs_het, and their Table 2 suggests
+    a lower M for a repetitive or polyploid genome. In Stacks 2, --max-obs-het
+    removes SNPs, not loci; to drop whole loci, blacklist them. The thresholds
+    used here are this script's, not Paris et al.'s.
+  - Paris et al. suggest testing M1 to M8 (Table 2); this series stops at
+    M6n6.
+
+------------------------------------------------------------------------------
+n series (m3 M2 fixed)  |  populations -R 0.8: loci in ≥80% of all 44 samples
+------------------------------------------------------------------------------
+Paris et al. (2017) metrics on r80 loci (Figs. 3 and 4).
+value     r80 loci    r80 poly  new poly (step)     SNPs  Paris
+n1          15,947      10,950                    22,961  
+n2          16,048      11,100     +150 (+1.4%)   23,884  
+n3          15,969      11,123      +23 (+0.2%)   25,141  r80 max, PICK
+r80 max = most polymorphic r80 loci; PICK = Paris recommendation.
+
+Within individuals (Paris Results and Table S6): means over 44 individuals.
+loci = loci per individual; merged = share of each individual's stacks merged
+into loci (allele collapse); het = heterozygous loci per individual (ustacks),
+which decides M. Steps are paired by individual, ± 2 SE; * = beyond 2 SE.
+value        loci  merged       het         step
+n1         35,407   23.8%   2,426.2             
+n2         35,407   23.8%   2,426.8       +0 ± 1
+n3         35,406   23.8%   2,427.1       +0 ± 1
+
+Over-merging signs Paris et al. name, as shares of polymorphic r80 loci: SNP-
+dense loci, and loci with a site where at least 70% of all samples are
+heterozygous ('heterozygous in a large majority of individuals').
+value       ≥10 SNPs, locus     ≥5 forward read         ≥70% het
+n1               49 (0.45%)          23 (0.21%)      163 (1.49%)
+n2               56 (0.50%)          39 (0.35%)      167 (1.50%)
+n3               90 (0.81%)          84 (0.76%)      173 (1.56%)
+
+Pick following Paris et al.: m3 M2 n3.
+  n rule (most polymorphic r80 loci among n = M - 1, M, M + 1): n3 (11,123)
+
+Notes:
+  - Fixed SNPs in the catalog (Paris Fig. S3): 26,409 (43.5%) at n1, 42,529
+    (56.7%) at n2 and 58,852 (64.9%) at n3. Paris et al. found that fixed SNPs
+    rose with n in all three datasets without levelling off, and that 'This
+    alone, however, does not provide enough information to choose a value for
+    n', so they are reported, not used for the pick.
+
+------------------------------------------------------------------------------
+Recommendation following Paris et al. (2017)
+------------------------------------------------------------------------------
+  m3 M2 n3
+  - m: 3 (the only value tested). Paris et al. suggest testing m3 to m7 and
+    chose m3 for all three of their datasets.
+  - M: 2, from the M = n series (m3 fixed), because the r80 maximum (M1n1)
+    lies below where polymorphic loci within individuals (heterozygous loci
+    per individual) first level off (M2n2). Paris et al. never chose M below
+    that point (trout M5, earthworm M3, penguin M2), so the higher of the two
+    is taken. None of their datasets had the r80 maximum below it, so this
+    applies their judgement to a case they did not meet; taken alone, their
+    r80 rule gives M1n1.
+  - That series changes M and n together. Paris et al. varied M with n fixed
+    (n0 in their primary runs), so the r80 counts here reflect n as well as M.
+  - n: 3 (Paris et al.'s n rule over n1, n2, n3)
+
+------------------------------------------------------------------------------
+Fixed SNPs in the catalog (Paris Fig. S3; reported, not used to choose)
+------------------------------------------------------------------------------
+Paris et al. compared the SNPs in each individual with those in the catalog
+(their count_fixed_catalog_snps.py, written for Stacks 1). A catalog SNP is
+fixed when no individual is heterozygous at it. Counted here on the catalog
+cstacks builds from the forward reads (catalog.snps.tsv.gz), with each
+sample's heterozygous ustacks SNPs (SAMPLE.snps.tsv.gz) placed on it through
+sstacks's alignment (SAMPLE.matches.tsv.gz). het in an ind = catalog SNPs at
+which at least one individual is heterozygous; het SNPs/ind = Paris et al.'s
+count (i), the mean heterozygous SNPs per individual (ustacks); placed = the
+mean that land on a catalog SNP (the rest are in loci sstacks did not match
+back to the catalog).
+params    catalog SNPs  het in an ind   fixed % fixed  het SNPs/ind  placed
+m3 M1 n1        64,824         30,295  34,529   53.3%         2,722   2,028
+m3 M2 n1        60,753         34,344  26,409   43.5%         3,465   2,525
+m3 M2 n2        74,995         32,466  42,529   56.7%         3,465   2,441
+m3 M2 n3        90,637         31,785  58,852   64.9%         3,466   2,398
+m3 M3 n3        74,676         35,198  39,478   52.9%         4,040   2,815
+m3 M4 n4        78,784         38,504  40,280   51.1%         4,672   3,234
+m3 M5 n5        86,095         41,912  44,183   51.3%         5,395   3,654
+m3 M6 n6        93,350         44,863  48,487   51.9%         6,230   4,142
+Paris et al. found that fixed SNPs rose with n in all three datasets without
+levelling off: 'This alone, however, does not provide enough information to
+choose a value for n.' The rise was gentlest in penguin, which has little
+divergence between colonies, and steepest in earthworm, which has highly
+divergent cryptic lineages. At the n they chose, 15% (trout, n4), 13%
+(penguin, n2) and 21% (earthworm, n3) of catalog SNPs were fixed.
+
+Where the fixed SNPs are (a reading aid, not from Paris; not used to choose).
+between = the haplotypes of the individuals sstacks matched to the locus show
+two or more bases there, although no individual's SNP calls are heterozygous:
+a difference between individuals. no-match = in catalog loci that cstacks
+built but sstacks matched no sample locus back to, so they never reach gstacks
+or populations (loci = how many such catalog loci). other = those haplotypes
+show at most one base: the second allele is in sample loci that sstacks did
+not match back (sstacks's lines in denovo_map.log count these per sample), or
+is an N. Shares are of all catalog SNPs.
+params                between         no-match     loci            other
+m3 M1 n1      19,157 (29.55%)    3,388 (5.23%)      200  11,984 (18.49%)
+m3 M2 n1      11,186 (18.41%)   7,658 (12.61%)      332   7,565 (12.45%)
+m3 M2 n2      16,267 (21.69%)  17,047 (22.73%)      421   9,215 (12.29%)
+m3 M2 n3      21,996 (24.27%)  25,051 (27.64%)      465  11,805 (13.02%)
+m3 M3 n3      16,410 (21.97%)  15,248 (20.42%)      365   7,820 (10.47%)
+m3 M4 n4      17,655 (22.41%)  14,723 (18.69%)      407   7,902 (10.03%)
+m3 M5 n5      18,771 (21.80%)  15,887 (18.45%)      450   9,525 (11.06%)
+m3 M6 n6      20,177 (21.61%)  18,056 (19.34%)      491  10,254 (10.98%)
+Along n (m3 M2 fixed): 26,409 fixed (43.5%) at n1, 42,529 fixed (56.7%) at n2
+and 58,852 fixed (64.9%) at n3.
+
+------------------------------------------------------------------------------
+Coverage (Paris Fig. 1)
+------------------------------------------------------------------------------
+ustacks coverage per sample after merging alleles ('Coverage after assembling
+stacks', before secondary reads are added; Paris Fig. 1's merged coverage),
+averaged over samples: 41.4x–46.0x over the runs read. At m3, Paris et al.'s
+datasets averaged 19x–42x before merging alleles and 21x–49x after, and they
+suggest aiming above 25x.
+Samples below 10x in at least one run (genotyping error rises below 10x,
+Fountain et al. 2016, cited by Paris et al.), with their range over all runs:
+  A063: 7.0x–7.4x, below 10x in 8 of 8 runs
+  ALP_MBR_01: 7.9x–8.0x, below 10x in 8 of 8 runs
+  ALP_MBR_02: 8.6x–8.8x, below 10x in 8 of 8 runs
+  AP6: 10.0x–10.5x, below 10x in 1 of 8 runs
+
+------------------------------------------------------------------------------
+Warnings
+------------------------------------------------------------------------------
+  none
+
+See also: plots in paris_plots.pdf and supporting tables (per run, per series
+value, per individual, SNPs per locus, fixed SNPs, high-heterozygosity loci,
+coverage per sample) in paris_summary.xlsx.
