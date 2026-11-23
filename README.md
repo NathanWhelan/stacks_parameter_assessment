@@ -43,6 +43,7 @@ done
 7.  [Troubleshooting](#7-troubleshooting)
 8.  [Glossary](#8-glossary)
 9.  [References](#9-references)
+10.  [AI Disclaimer](#10-AI-Disclaimer)
 
 ------------------------------------------------------------------------
 
@@ -622,3 +623,6 @@ AP6 is just under 10× at M1n1 (9.97×) and 10.2–10.5× in the other runs. The
 - Paris, J.R., Stevens, J.R. & Catchen, J.M. (2017) Lost in parameter space: a road map for STACKS. *Methods in Ecology and Evolution*, 8, 1360–1373. <doi:10.1111/2041-210X.12775>
 - Rochette, N.C. & Catchen, J.M. (2017) Deriving genotypes from RAD-seq short-read data using Stacks. *Nature Protocols*, 12, 2640–2659.
 - Fountain, E.D., Pauli, J.N., Reid, B.N., Palsbøll, P.J. & Peery, M.Z. (2016) Finding the right coverage: the impact of coverage and sequence quality on SNP genotyping error rates. *Molecular Ecology Resources*, 16, 966–978.
+
+## 10. AI Disclaimer 
+Claude code, using Opus models, was used to generate much of the code and README. The README was edited, heavily in some parts, by N.V. Whelan. The code was checked thoroughly by N.V. Whelan.
