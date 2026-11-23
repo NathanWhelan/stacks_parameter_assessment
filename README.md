@@ -18,7 +18,7 @@ It works for any Stacks 2 de novo dataset, single-end or paired-end. Throughout 
 
 Below is a comprehensive explanation of the script and details about Paris et al. (2017)'s methods. If you are already familiar with the Paris et al. approach to choosing parameters, you might just want to know how to run the script and get a recommended parameter choice. If so:
 
-To run STACKS `denovo_map.pl` with 6 M=n values followed by the paris_optimize.py script. Assumes STACKS is installed on your computer. You'll probably be submitting this job to an HPC queue.
+To run STACKS `denovo_map.pl` with 6 M=n values on paired-end data followed by the paris_optimize.py script. Assumes STACKS is installed on your computer. You'll probably be submitting this job to an HPC queue.
 
 ``` bash
 for i in 1 2 3 4 5 6;
